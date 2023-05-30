@@ -5,14 +5,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/lightGray"
-    tools:context=".RecipesFragment">
+    tools:context=".ui.fragments.recipes.RecipesFragment">
 
     <com.cooltechworks.views.shimmer.ShimmerRecyclerView
-        android:id="@+id/shimmer_recycler_view"
+        android:id="@+id/recyclerview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        app:shimmer_demo_child_count="3"
+        app:shimmer_demo_layout="@layout/placeholder_row_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

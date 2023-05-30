@@ -1,4 +1,4 @@
-package com.example.recipes
+package com.example.recipes.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.recipes.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -28,8 +29,10 @@ class MainActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.recipesFragment,R.id.favouriteRecipesFragment,
-        R.id.foodJokeFragment))
+        val appBarConfiguration = AppBarConfiguration(setOf(
+            R.id.recipesFragment, R.id.favouriteRecipesFragment,
+            R.id.foodJokeFragment
+        ))
 
         bottomNavigationView.setupWithNavController(navController)
 

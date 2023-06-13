@@ -1,4 +1,4 @@
-package com.example.recipes
+package com.example.recipes.util
 
 class Constants {
 

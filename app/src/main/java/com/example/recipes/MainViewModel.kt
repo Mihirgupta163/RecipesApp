@@ -15,10 +15,11 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
+@HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: Repository,
-    application: MyApplication
-) : AndroidViewModel(application) {
+    myApplication: Application,
+    private val repository: Repository
+) : AndroidViewModel(myApplication) {
 
 
     var recipesResponse : MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()

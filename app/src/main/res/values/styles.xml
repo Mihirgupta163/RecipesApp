@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chipBackgroundColor</item>
+        <item name="android:textColor">@color/chipTextColor</item>
+        <item name="checkedIconTint">@color/chipTextColor</item>
+    </style>
+</resources>

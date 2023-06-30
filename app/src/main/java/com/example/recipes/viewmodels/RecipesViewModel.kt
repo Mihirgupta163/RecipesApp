@@ -1,10 +1,10 @@
 package com.example.recipes.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipes.data.DataStoreRepository
-import com.example.recipes.util.Constants
 import com.example.recipes.util.Constants.Companion.API_KEY
 import com.example.recipes.util.Constants.Companion.DEFAULT_DIET_TYPE
 import com.example.recipes.util.Constants.Companion.DEFAULT_MEAL_TYPE
@@ -17,7 +17,6 @@ import com.example.recipes.util.Constants.Companion.QUERY_NUMBER
 import com.example.recipes.util.Constants.Companion.QUERY_TYPE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,6 +44,7 @@ class RecipesViewModel @Inject constructor(
             readMealAndDietType.collect{value->
                 mealType = value.selectedMealType
                 dietType = value.selectedDietType
+                Log.d("RecipesViewModel", mealType+" "+dietType)
             }
         }
 

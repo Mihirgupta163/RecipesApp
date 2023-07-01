@@ -60,8 +60,7 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
 
                 mealTypeChip = selectedMealType
                 mealTypeChipId = group.checkedChipId
-
-                Log.d("RecipesBottomSheet",selectedMealType+" "+mealTypeChipId.toString())
+                saveMealAndDietType()
             }
 
         mView.findViewById<ChipGroup>(R.id.dietType_chipGroup)
@@ -70,18 +69,12 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
                 val selectedDietType = chip.text.toString().lowercase(Locale.ROOT)
                 dietTypeChip = selectedDietType
                 dietTypeChipId = group.checkedChipId
-
-                Log.d("RecipesBottomSheet",dietTypeChip+" "+dietTypeChipId.toString())
+                saveMealAndDietType()
             }
 
         mView.findViewById<Button>(R.id.apply_btn).setOnClickListener {
-            recipesViewModel.saveMealAndDietType(
-                mealTypeChip,
-                mealTypeChipId,
-                dietTypeChip,
-                dietTypeChipId
-            )
-            Log.d("RecipesBottomSheet",dietTypeChip+" "+dietTypeChipId.toString())
+
+            saveMealAndDietType()
             val action = RecipesBottomSheetDirections.actionRecipesBottomSheetToRecipesFragment(true)
             findNavController().navigate(action)
         }
@@ -97,5 +90,14 @@ class RecipesBottomSheet : BottomSheetDialogFragment() {
                 Log.d("RecipesBottomSheet", e.message.toString())
             }
         }
+    }
+    private fun saveMealAndDietType() {
+        recipesViewModel.saveMealAndDietType(
+            mealTypeChip,
+            mealTypeChipId,
+            dietTypeChip,
+            dietTypeChipId
+        )
+        recipesViewModel.applyOrderFood()
     }
 }

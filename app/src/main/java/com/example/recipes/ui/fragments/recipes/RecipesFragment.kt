@@ -18,11 +18,17 @@ import com.example.recipes.viewmodels.MainViewModel
 import com.example.recipes.R
 import com.example.recipes.adapters.RecipesAdapter
 import com.example.recipes.databinding.FragmentRecipesBinding
+import com.example.recipes.util.Constants
 import com.example.recipes.util.Constants.Companion.API_KEY
+import com.example.recipes.util.Constants.Companion.QUERY_DIET
+import com.example.recipes.util.Constants.Companion.QUERY_TYPE
+import com.example.recipes.util.NetworkListener
 import com.example.recipes.util.NetworkResult
 import com.example.recipes.util.observeOnce
 import com.example.recipes.viewmodels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -35,6 +41,9 @@ class RecipesFragment : Fragment() {
 
     private lateinit var recipesViewModel: RecipesViewModel
     private lateinit var mainViewModel: MainViewModel
+
+    private lateinit var networkListener: NetworkListener
+
     private val mAdapter by lazy { RecipesAdapter() }
 
 
@@ -53,10 +62,27 @@ class RecipesFragment : Fragment() {
         binding.mainViewModel = mainViewModel
 
         setUpRecyclerView()
-        readDatabase()
+        recipesViewModel.readBackOnline.observe(viewLifecycleOwner) {
+            recipesViewModel.backOnline = it
+        }
+
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect{status ->
+                    Log.d("NetworkListener", status.toString())
+                    recipesViewModel.networkStatus = status
+    //                recipesViewModel.showNetworkStatus()
+                    readDatabase()
+                }
+        }
 
         binding.recipesFab.setOnClickListener{
-            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            if (recipesViewModel.networkStatus){
+                findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            }else{
+               recipesViewModel.showNetworkStatus()
+            }
         }
 
         return binding.root
@@ -66,14 +92,13 @@ class RecipesFragment : Fragment() {
         binding.recyclerview.adapter = mAdapter
         binding.recyclerview.layoutManager = LinearLayoutManager(requireContext())
         showShimmerEffect()
-
     }
 
     private fun readDatabase() {
         lifecycleScope.launch {
             mainViewModel.readRecipes.observeOnce(viewLifecycleOwner) {database->
-                Log.d("RecipesFragment",args.backFromBottomSheet.toString())
                 if(database.isNotEmpty() && !args.backFromBottomSheet){
+                    Log.d("RecipesFragment", "readDatabase called!")
                     mAdapter.setData(database[0].foodRecipe)
                     hideShimmerEffect()
                 }else{
@@ -84,21 +109,34 @@ class RecipesFragment : Fragment() {
     }
 
     private fun requestAPIData(){
-        mainViewModel.getRecipe(recipesViewModel.applyQueries())
+        Log.d("RecipesFragment", "requestApiData called!")
 
-        mainViewModel.recipesResponse.observe(viewLifecycleOwner) { response ->
-            when (response) {
-                is NetworkResult.Success -> {
-                    hideShimmerEffect()
-                    response.data?.let { mAdapter.setData(it) }
-                }
-                is NetworkResult.Loading -> {
-                    showShimmerEffect()
-                }
-                is NetworkResult.Error -> {
-                    hideShimmerEffect()
-                    loadDataFromCache()
-                    Toast.makeText(requireContext(),response.message.toString(),Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            mainViewModel.getRecipe(recipesViewModel.applyQueries())
+
+            mainViewModel.recipesResponse.observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is NetworkResult.Success -> {
+                        hideShimmerEffect()
+                        response.data?.let {
+                            Log.d("RecipesFragment", it.toString())
+                            mAdapter.setData(it)
+                        }
+                    }
+
+                    is NetworkResult.Loading -> {
+                        showShimmerEffect()
+                    }
+
+                    is NetworkResult.Error -> {
+                        hideShimmerEffect()
+                        loadDataFromCache()
+                        Toast.makeText(
+                            requireContext(),
+                            response.message.toString(),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
         }

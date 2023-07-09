@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -41,21 +42,17 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener{
 
     private lateinit var networkListener: NetworkListener
 
-    private lateinit var menuHost: MenuHost
-    private lateinit var myMenuProvider: MenuProvider
-
     private val mAdapter by lazy { RecipesAdapter() }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpMenu()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         recipesViewModel = ViewModelProvider(requireActivity()).get(RecipesViewModel::class.java)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        menuHost.removeMenuProvider(myMenuProvider)
     }
 
     override fun onCreateView(
@@ -66,11 +63,6 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener{
         _binding = FragmentRecipesBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.mainViewModel = mainViewModel
-
-
-        menuHost = requireActivity()
-        myMenuProvider = getMenuProvider()
-        menuHost.addMenuProvider(myMenuProvider)
 
         setUpRecyclerView()
 
@@ -157,7 +149,6 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener{
         showShimmerEffect()
         lifecycleScope.launch {
             mainViewModel.searchRecipes(recipesViewModel.applySearchQuery(searchQuery))
-
             mainViewModel.recipesResponse.observe(viewLifecycleOwner){response->
                 when (response) {
                     is NetworkResult.Success -> {
@@ -204,21 +195,22 @@ class RecipesFragment : Fragment(), SearchView.OnQueryTextListener{
         _binding = null
     }
 
-    private fun getMenuProvider():MenuProvider{
-        return object :MenuProvider{
+    private fun setUpMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider{
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.recipes_menu, menu)
+                menuInflater.inflate(R.menu.recipes_menu,menu)
+
+                val search = menu.findItem(R.id.menu_search)
+                val searchView = search.actionView as? SearchView
+                searchView?.isSubmitButtonEnabled = true
+                searchView?.setOnQueryTextListener(this@RecipesFragment)
+
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                if (menuItem.itemId == R.id.menu_search) {
-                    val searchView = menuItem.actionView as? SearchView
-                    searchView?.isSubmitButtonEnabled = true
-                    searchView?.setOnQueryTextListener(this@RecipesFragment)
-                }
                 return true
             }
-        }
+        },viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

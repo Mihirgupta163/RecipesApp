@@ -1,15 +1,35 @@
 package com.example.recipes.bindingadapters
 
+
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.navigation.findNavController
 import coil.load
 import com.example.recipes.R
+import com.example.recipes.models.Result
+import com.example.recipes.ui.fragments.recipes.RecipesFragmentDirections
 
 class RecipesRowBinding {
     companion object{
+
+        @BindingAdapter("onRecipeClickListener")
+        @JvmStatic
+        fun onRecipeClickListener(recipeRowLayout: ConstraintLayout, result: Result){
+            recipeRowLayout.setOnClickListener{
+                try{
+                    val action = RecipesFragmentDirections.actionRecipesFragmentToDetailsActivity(result)
+                    recipeRowLayout.findNavController().navigate(action)
+
+                }catch (e: Exception){
+                    Log.d("onRecipeClickListener",e.message.toString())
+                }
+            }
+        }
 
         @BindingAdapter("loadImageFromUrl")
         @JvmStatic
@@ -46,6 +66,8 @@ class RecipesRowBinding {
                 }
             }
         }
+
+
 
     }
 }

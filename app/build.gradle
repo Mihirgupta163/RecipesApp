@@ -110,4 +110,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1'
 
 
+    //Jsoup
+    implementation 'org.jsoup:jsoup:1.16.1'
+
 }

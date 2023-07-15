@@ -13,9 +13,11 @@ import coil.load
 import com.example.recipes.R
 import com.example.recipes.models.Result
 import com.example.recipes.ui.fragments.recipes.RecipesFragmentDirections
+import org.jsoup.Jsoup
 
 class RecipesRowBinding {
     companion object{
+
 
         @BindingAdapter("onRecipeClickListener")
         @JvmStatic
@@ -67,6 +69,14 @@ class RecipesRowBinding {
             }
         }
 
+        @BindingAdapter("parseHTML")
+        @JvmStatic
+        fun parseHTML(textView: TextView, desc: String?){
+            if(desc != null){
+                val description = Jsoup.parse(desc).text()
+                textView.text = description
+            }
+        }
 
 
     }

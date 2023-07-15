@@ -33,4 +33,7 @@
     <string name="whole30">Whole30</string>
     <string name="diet_type">Diet Type</string>
     <string name="apply">Apply</string>
+    <string name="cheap">Cheap</string>
+    <string name="healthy">Healthy</string>
+    <string name="diary_free">Diary Free</string>
 </resources>

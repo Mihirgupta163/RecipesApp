@@ -11,6 +11,7 @@ import coil.load
 import com.example.recipes.R
 import com.example.recipes.databinding.FragmentOverviewBinding
 import com.example.recipes.models.Result
+import com.example.recipes.util.Constants.Companion.RECIPE_RESULT_KEY
 import org.jsoup.Jsoup
 
 class OverviewFragment : Fragment() {
@@ -25,9 +26,9 @@ class OverviewFragment : Fragment() {
 
         val args = arguments
         val myBundle: Result? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            args?.getParcelable("recipeBundle",Result::class.java)
+            args?.getParcelable(RECIPE_RESULT_KEY,Result::class.java)
         }else{
-            args?.getParcelable("recipeBundle")
+            args?.getParcelable(RECIPE_RESULT_KEY)
         }
 
         binding.mainImageView.load(myBundle?.image)

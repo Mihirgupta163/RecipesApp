@@ -3,7 +3,6 @@ package com.example.recipes.models
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
 @kotlinx.parcelize.Parcelize
@@ -24,11 +23,11 @@ data class Result(
     @SerializedName("image")
     val image: String,
     @SerializedName("license")
-    val license: String,
+    val license: String?,
     @SerializedName("readyInMinutes")
     val readyInMinutes: Int,
     @SerializedName("sourceName")
-    val sourceName: String,
+    val sourceName: String?,
     @SerializedName("sourceUrl")
     val sourceUrl: String,
     @SerializedName("summary")

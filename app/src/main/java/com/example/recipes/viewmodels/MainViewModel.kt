@@ -10,12 +10,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.recipes.data.Repository
-import com.example.recipes.data.database.RecipesEntity
+import com.example.recipes.data.database.entities.RecipesEntity
 import com.example.recipes.models.FoodRecipe
 import com.example.recipes.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
@@ -27,7 +26,7 @@ class MainViewModel @Inject constructor(
 ) : AndroidViewModel(myApplication) {
 
     /** Room Database */
-    val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readDatabase().asLiveData()
+    val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readRecipes().asLiveData()
 
 
     /** Retrofit Call */

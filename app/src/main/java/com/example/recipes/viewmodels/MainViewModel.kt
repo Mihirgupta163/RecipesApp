@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.recipes.data.Repository
+import com.example.recipes.data.database.entities.FavouritesEntity
 import com.example.recipes.data.database.entities.RecipesEntity
 import com.example.recipes.models.FoodRecipe
 import com.example.recipes.util.NetworkResult
@@ -27,7 +28,7 @@ class MainViewModel @Inject constructor(
 
     /** Room Database */
     val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readRecipes().asLiveData()
-
+    val readFavouritesRecipes: LiveData<List<FavouritesEntity>> = repository.local.readFavouriteRecipes().asLiveData()
 
     /** Retrofit Call */
     var recipesResponse : MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
@@ -79,6 +80,23 @@ class MainViewModel @Inject constructor(
             searchRecipeResponse.value = NetworkResult.Error("No Internet Connection",)
         }
     }
+
+    private fun insertFavouriteRecipes(favouritesEntity: FavouritesEntity){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.insertFavouriteRecipes(favouritesEntity)
+        }
+    }
+
+    private fun deleteFavouriteRecipes(favouritesEntity: FavouritesEntity){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.deleteFavouriteRecipe(favouritesEntity)
+        }
+    }
+
+    private fun deleteAllFavouriteRecipes() =
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.deleteAllFavouriteRecipes()
+        }
 
     private fun insertRecipes(recipesEntity: RecipesEntity){
         viewModelScope.launch(Dispatchers.IO) {

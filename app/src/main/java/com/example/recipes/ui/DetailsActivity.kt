@@ -88,11 +88,16 @@ class DetailsActivity : AppCompatActivity() {
         mainViewModel.readFavouritesRecipes.observe(this) {favouritesEntity->
             try{
                 for(savedRecipe in favouritesEntity){
+                    Log.d("DetailsActivity", args.result.id.toString())
+                    Log.d("DetailsActivity", savedRecipe.result.id.toString())
                     if(savedRecipe.result.id == args.result.id){
+                        Log.d("DetailsActivity", "If Block ")
                         changeMenuItemColor(menuItem,R.color.yellow)
                         savedRecipeId = savedRecipe.id
                         recipeSaved = true
+                        break
                     }else{
+                        Log.d("DetailsActivity", "ELSE Block ")
                         changeMenuItemColor(menuItem,R.color.white)
                     }
                 }
@@ -106,10 +111,10 @@ class DetailsActivity : AppCompatActivity() {
         if(item.itemId == android.R.id.home){
             finish()
         }
-        if(item.itemId == R.id.save_to_favourites && !recipeSaved){
+        else if(item.itemId == R.id.save_to_favourites && !recipeSaved){
             saveToFavourites(item)
         }
-        if(item.itemId == R.id.save_to_favourites && recipeSaved){
+        else if(item.itemId == R.id.save_to_favourites && recipeSaved){
             removeFromFavourites(item)
         }
         return super.onOptionsItemSelected(item)
@@ -146,6 +151,5 @@ class DetailsActivity : AppCompatActivity() {
     private fun changeMenuItemColor(item: MenuItem, yellow: Int) {
         item.icon?.setTint(ContextCompat.getColor(this,yellow))
     }
-
 
 }

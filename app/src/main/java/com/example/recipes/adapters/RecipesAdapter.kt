@@ -15,7 +15,6 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
     class MyViewHolder(private val binding: RecipesRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
             fun bind(result: Result){
                 binding.result = result
                 binding.executePendingBindings()
@@ -24,7 +23,6 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
             fun from(parent: ViewGroup): MyViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = RecipesRowLayoutBinding.inflate(layoutInflater,parent,false)
-
                 return MyViewHolder(binding)
             }
         }

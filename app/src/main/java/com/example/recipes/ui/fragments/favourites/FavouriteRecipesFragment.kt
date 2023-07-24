@@ -22,7 +22,7 @@ class FavouriteRecipesFragment : Fragment() {
     private var _binding: FragmentFavouriteRecipesBinding? = null
     private val binding get() = _binding!!
 
-    private val mAdapter: FavouriteRecipesAdapter by lazy { FavouriteRecipesAdapter() }
+    private val mAdapter: FavouriteRecipesAdapter by lazy { FavouriteRecipesAdapter(requireActivity()) }
     private val mainViewModel : MainViewModel by  viewModels()
 
 

@@ -2,6 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.Recipes" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
+        <item name="windowActionModeOverlay">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/lightGray</item>

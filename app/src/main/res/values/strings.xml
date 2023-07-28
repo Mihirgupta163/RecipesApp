@@ -40,4 +40,7 @@
     <string name="no_favourite_recipes">No Favourite Recipes.</string>
     <string name="delete_favourite_recipe_menu">Delete favourite recipe menu</string>
     <string name="delete_all">Delete All</string>
+
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
+
 </resources>

@@ -11,6 +11,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.recipes.data.Repository
 import com.example.recipes.data.database.entities.FavouritesEntity
+import com.example.recipes.data.database.entities.FoodJokeEntity
 import com.example.recipes.data.database.entities.RecipesEntity
 import com.example.recipes.models.FoodJoke
 import com.example.recipes.models.FoodRecipe
@@ -18,6 +19,7 @@ import com.example.recipes.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -30,6 +32,7 @@ class MainViewModel @Inject constructor(
     /** Room Database */
     val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readRecipes().asLiveData()
     val readFavouritesRecipes: LiveData<List<FavouritesEntity>> = repository.local.readFavouriteRecipes().asLiveData()
+    val readFoodJoke: LiveData<List<FoodJokeEntity>> = repository.local.readFoodJoke().asLiveData()
 
     /** Retrofit Call */
     var recipesResponse : MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
@@ -93,6 +96,10 @@ class MainViewModel @Inject constructor(
             try{
                 val response = repository.remote.getFoodJoke(apiKey)
                 foodJokeResponse.value = handleFoodJokeResponse(response)
+
+                val foodJoke = foodJokeResponse.value!!.data
+                if(foodJoke!=null)
+                    offlineCacheFoodJoke(foodJoke)
             }catch (e:Exception){
                 foodJokeResponse.value = NetworkResult.Error("Food Joke not found")
             }
@@ -143,9 +150,21 @@ class MainViewModel @Inject constructor(
             repository.local.insertRecipes(recipesEntity)
         }
     }
+
+    private fun insertFoodJoke(foodJokeEntity: FoodJokeEntity){
+        viewModelScope.launch (Dispatchers.IO){
+            repository.local.insertFoodJoke(foodJokeEntity)
+        }
+    }
+
     private fun offlineCacheRecipes(foodRecipe: FoodRecipe) {
         val recipesEntity = RecipesEntity(foodRecipe)
         insertRecipes(recipesEntity)
+    }
+
+    private fun offlineCacheFoodJoke(foodJoke: FoodJoke) {
+        val foodJokeEntity = FoodJokeEntity(foodJoke)
+        insertFoodJoke(foodJokeEntity)
     }
 
     private fun handleFoodRecipeResponse(response: Response<FoodRecipe>): NetworkResult<FoodRecipe>? {

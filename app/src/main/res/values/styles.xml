@@ -5,9 +5,6 @@
         <item name="chipBackgroundColor">@color/chip_background_color</item>
         <item name="android:textColor">@color/chip_text_color</item>
         <item name="checkedIconTint">@color/chip_text_color</item>
-        <item name="actionModeBackground">@color/contextualActionBarColor</item>
-        <item name="android:statusBarColor">@color/statusBarColor</item>
-        <item name="actionBarStyle">@style/CustomActionBarStyle</item>
     </style>
     
     <style name="CustomActionBarStyle" parent="Widget.MaterialComponents.ActionBar.Primary">
@@ -19,7 +16,7 @@
         <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/lightGray</item>
         <item name="colorControlNormal">@color/white</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/statusBarColor</item>
     </style>
     
     <style name="CustomTabLayoutStyle" parent="Widget.Design.TabLayout">
@@ -38,4 +35,11 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
+    
+    <style name="CustomBottomNavigationViewStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:backgroundTint">@color/bottomNavBackground</item>
+        <item name="iconTint">@color/bottom_nav_view_item_color</item>
+        <item name="itemTextColor">@color/bottom_nav_view_item_color</item>
+    </style>
+    
 </resources>

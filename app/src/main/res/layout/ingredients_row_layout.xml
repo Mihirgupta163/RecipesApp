@@ -25,7 +25,6 @@
             android:background="@color/cardBackgroundColor"
             android:elevation="2dp">
 
-
             <View
                 android:id="@+id/white_background"
                 android:layout_width="120dp"

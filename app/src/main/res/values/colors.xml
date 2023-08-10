@@ -27,16 +27,22 @@
     
 
     // Custom Card View Style
-
     <color name="strokeColor">@color/lightMediumGray</color>
     <color name="cardBackgroundColor">@color/white</color>
     <color name="cardBackgroundLightColor">#106200EA</color>
     <color name="titleColor">@color/darker</color>
+    <color name="descriptionColor">@color/darkGray</color>
 
 
     <color name="statusBarColor">@color/colorPrimaryDark</color>
     <color name="contextualStatusBarColor">@color/darker</color>
     <color name="contextualActionBarColor">@color/dark</color>
     <color name="actionBarBackgroundColor">@color/colorPrimary</color>
+
+    // Custom Bottom Navigation Style
+    <color name="bottomNavBackground">@color/white</color>
+    <color name="bottomNavItemColor">@color/darkGray</color>
+    <color name="bottomNavCheckedItemColor">@color/colorPrimary</color>
+
 
 </resources>

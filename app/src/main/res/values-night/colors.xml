@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/darker</color>
+    <color name="colorPrimary">#6200EA</color>
     <color name="colorPrimaryDark">#5502C8</color>
     <color name="colorAccent">#9D46FF</color>
 
@@ -14,6 +14,7 @@
     <color name="yellow">#FFC114</color>
     <color name="dark">#000000</color>
     <color name="green">#00C980</color>
+    <color name="black">#000000</color>
 
     // Dark Theme
 
@@ -33,8 +34,8 @@
     <color name="descriptionColor">@color/mediumGray</color>
 
     <color name="statusBarColor">@color/dark</color>
-    <color name="contextualStatusBarColor">@color/darker</color>
-    <color name="contextualActionBarColor">@color/dark</color>
+    <color name="contextualStatusBarColor">@color/black</color>
+    <color name="contextualActionBarColor">@color/darker</color>
     <color name="actionBarBackgroundColor">@color/darker</color>
 
     // Custom Bottom Navigation Style
